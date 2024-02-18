@@ -19,3 +19,7 @@ WHERE
 ORDER BY id
 LIMIT $3
 OFFSET $4;
+
+-- name: DeleteTransfersByAccountID :exec
+DELETE FROM transfers
+WHERE from_account_id = $1 OR to_account_id = $1;

@@ -35,6 +35,16 @@ func (q *Queries) CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry
 	return i, err
 }
 
+const deleteEntriesByAccountID = `-- name: DeleteEntriesByAccountID :exec
+DELETE FROM entries
+WHERE account_id = $1
+`
+
+func (q *Queries) DeleteEntriesByAccountID(ctx context.Context, accountID int64) error {
+	_, err := q.db.ExecContext(ctx, deleteEntriesByAccountID, accountID)
+	return err
+}
+
 const getEntry = `-- name: GetEntry :one
 SELECT id, account_id, amount, created_at FROM entries
 WHERE id = $1 LIMIT 1
